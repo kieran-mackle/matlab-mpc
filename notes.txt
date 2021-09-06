@@ -1,0 +1,21 @@
+The main files to run the MPC are:
+    - mpc_control
+    - mpc_update
+        - solve_qp.m (codegen)
+            - dense_qp.c
+    - forward_simulate
+
+The mpc update can be solved using MATLAB's quadprog function, or by
+using gurobi. In the latter case, solve_qp.m must be written to a mex file 
+using codegen, as it contains a call to the C code, dense_qp.c. The
+commands to do this are:
+    cfg = coder.config('mex');
+    cfg.CustomInclude = fullfile("/opt/gurobi912/linux64/include/");
+    cfg.CustomLibrary = fullfile("/opt/gurobi912/linux64/lib/libgurobi91.so");
+    codegen -config cfg solve_qp -args {0,0,0,H,G,Omega,omega,constraint_weights, Uopt_mat} dense_qp.c -v
+
+
+    Important: the input args to the command above must be of the correct size,
+    which depends on the control horizon and timestep. As such, codegen must
+    be run each time these settings are updated.
+
