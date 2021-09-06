@@ -66,40 +66,11 @@ for k = 1:N
     mpc_input.t                 = t(k);
     mpc_input                   = get_reference(mpc_input); % Updates reference 
                                                             % and cost matrices
-%     
-%     % Normalise model before MPC update
-% %     % ----------------------------------
-%     % STATE VARIABLES
-%     scaled_state                = scale_input(mpc_input.initial.state, ...
-%                                               mpc_input.scaling.state);
-%     scaled_initial.state        = scaled_state;
-%     
-%     % REFERENCE
-%     scaled_reference            = scale_input(mpc_input.reference, ...
-%                                               mpc_input.scaling.reference);
-%     
-%     % CONTROL INPUTS
-%     scaled_control              = scale_input(mpc_input.initial.control, ...
-%                                               mpc_input.scaling.control);
-%     scaled_initial.control      = scaled_control;
-%     
-%     % CONSTRAINTS
-%     
-%     
-%     % ANYTHING ELSE
-%     % Auxdata?
-%     
-%     mpc_input.initial           = scaled_initial;
-%     mpc_input.reference         = scaled_reference;
     
     % Run MPC update
     % ----------------------------------
     U_k                         = mpc_update(mpc_input);
     uk                          = U_k(1:length(u0), :);
-    
-%     % Scale MPC output
-%     % ----------------------------------
-%     uk                          = normalise_input(uk, mpc_input.scaling.control);
     
     % Run forward simultation
     % ----------------------------------
