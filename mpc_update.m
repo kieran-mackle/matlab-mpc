@@ -386,5 +386,11 @@ end
 U_k     = Ubar + repmat(u0', Hp, 1);
 
 
+% ybar_predicted  = psi*xbar_k + gamma*ubar_km1 + ...
+%                   theta*dUbar + phi*f0d + repmat(g0, Hp, 1);
+% figure(1);
+% clf; hold on; grid on;
+% plot(ybar_predicted);
+
 output = U_k;
 
