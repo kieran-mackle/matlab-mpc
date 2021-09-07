@@ -1,5 +1,5 @@
 function constraint_matrix = build_constraints(input_constraints)
-%BUILD_CONSTRAINTS Automated constrain matrix construction
+%BUILD_CONSTRAINTS Automated constraint matrix construction
 %  Currently supports simple upper and lower contraints
 
 no_rows     = 2 * size(input_constraints, 1);
