@@ -60,6 +60,8 @@ R               = [mpc_input.reference'];
 % figure(3); clf; title('Thrust setting'); hold on; grid on;
 
 for k = 1:N
+    
+    k
     % Update inputs with latest information
     % --------------------------------------
     mpc_input.initial           = initial;
@@ -93,11 +95,11 @@ for k = 1:N
     Z                           = [Z, sim_update.zk1'];
     R                           = [R, mpc_input.reference'];
     
-%     if mod(t(end), 5) == 0
-%         figure(1); plot(t(1:k+1), Z(1, 1:k+1)*1e-3, 'k-');
-%         figure(2); stairs(t(1:k+1), Z(2, 1:k+1)*180/pi, 'k-');
-%         figure(3); stairs(t(1:k+1), Z(3, 1:k+1), 'k-');
-%     end
+    if mod(t(end), 0.1) == 0
+        figure(1); plot(t(1:k+1), Z(1, 1:k+1)*1e-3, 'k-');
+        figure(2); stairs(t(1:k+1), Z(2, 1:k+1)*180/pi, 'k-');
+        figure(3); stairs(t(1:k+1), Z(3, 1:k+1), 'k-');
+    end
     
 end
 
