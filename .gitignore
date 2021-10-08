@@ -1,3 +1,4 @@
+*.m~
 codegen/
 *.mexa64
 dense_qp.l*

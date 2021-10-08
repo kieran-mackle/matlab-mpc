@@ -386,11 +386,27 @@ end
 U_k     = Ubar + repmat(u0', Hp, 1);
 
 
-% ybar_predicted  = psi*xbar_k + gamma*ubar_km1 + ...
-%                   theta*dUbar + phi*f0d + repmat(g0, Hp, 1);
+% PLOTTING
+ybar_predicted  = psi*xbar_k + gamma*ubar_km1 + ...
+                  theta*dUbar + phi*f0d + repmat(g0, Hp, 1);
+              
 % figure(1);
-% clf; hold on; grid on;
-% plot(ybar_predicted);
+% clf;
+% 
+% subplot(2,2,1);
+% hold on; grid on;
+% title('State 1 prediction');
+% plot(U_k(1:m:end));
+% 
+% subplot(2,2,2);
+% hold on; grid on;
+% title('State 2 prediction');
+% plot(U_k(2:m:end));
+% 
+% subplot(2,2,3);
+% hold on; grid on;
+% title('Output prediction');
+% plot(ybar_predicted(1:p:end));
 
 output = U_k;
 
