@@ -81,7 +81,7 @@ g0          = control_output(x0)';
 
 % Define cost weighting matrices
 % -----------------------------------------
-Q           = cost.output;
+Q           = C' * cost.output * C;
 R           = cost.control;
 
 % Define constraint matrices
@@ -184,7 +184,11 @@ end
 % ------------------------------------------------------------------- %
 LHS = [A,B; C, zeros(size(C,1), size(B,2))];
 RHS = [-f0d; r-g0];
-xu_inf = lsqminnorm(LHS,RHS);
+xu_inf = lsqminnorm(LHS, RHS);  % Optimal steady-state
+x_inf = xu_inf(1:n);
+u_inf = xu_inf(n+1:end);
+X_inf = repmat(x_inf, [Hp,1]);
+U_inf = repmat(u_inf, [Hp,1]);
 
 % ------------------------------------------------------------------- %
 % Build Prediction Matrices
@@ -253,20 +257,26 @@ if strcmpi(mpc_input.solver, 'quadprog') && ...
 end
 
 % Prediction matrices
+gamma = tril(ones(m*Hp));
+psi = ABdu_big;
+phi = X_inf - A_big*xbar_k - AB_big*ubar_km1;
+theta = repmat(u_inf - ubar_km1, Hp, 1);
+
+
+% Formulate Quadratic Program
+% ----------------------------------
+% Prediction matrices
+G           = 2 * (psi' * Q_fancy * phi + gamma' * R_fancy * theta);
+H           = psi' * Q_fancy * psi + gamma' * R_fancy * gamma;
+
+% Constraint matrices - for hard constraints
+% todo - fix the name abuse below
 F_1         = F_fancy(:, 1:m);
 psi         = C_big*A_big;
 gamma       = C_big*AB_big;
 theta       = C_big*ABdu_big;
 phi         = C_big*IA_big;
 
-% Formulate Quadratic Program
-% ----------------------------------
-% Prediction matrices
-epsilon     = T_fancy - psi*xbar_k - gamma*ubar_km1 - phi*f0d - repmat(g0, Hp, 1);
-G           = 2 * theta' * Q_fancy * epsilon;
-H           = theta' * Q_fancy * theta + R_fancy;
-
-% Constraint matrices - for hard constraints
 Omega       = [F_fancy; 
                Tau*theta; 
                W];
