@@ -70,7 +70,8 @@ for k = 1:N
     
     % Run MPC update
     % ----------------------------------
-    U_k                         = mpc_update(mpc_input);
+%     U_k                         = mpc_update(mpc_input);
+    U_k                         = mpc_updateV2(mpc_input);
     uk                          = U_k(1:length(u0), :);
     
     % Run forward simultation
@@ -95,13 +96,15 @@ for k = 1:N
     R                           = [R, mpc_input.reference'];
     
 %     if mod(t(end), 0.1) == 0
-        figure(1); plot(t(1:k+1), Z(1, 1:k+1)*1e-3, 'k-');
-        figure(2); stairs(t(1:k+1), Z(2, 1:k+1)*180/pi, 'k-');
-        figure(3); stairs(t(1:k+1), Z(3, 1:k+1), 'k-');
-        figure(4); stairs(t(1:k+1), Z(4, 1:k+1), 'k-');
-        figure(5); stairs(t(1:k+1), Z(5, 1:k+1), 'k-');
+%         figure(1); plot(t(1:k+1), Z(1, 1:k+1)*1e-3, 'k-');
+%         figure(2); stairs(t(1:k+1), Z(2, 1:k+1)*180/pi, 'k-');
+%         figure(3); stairs(t(1:k+1), Z(3, 1:k+1), 'k-');
+%         figure(4); stairs(t(1:k+1), Z(4, 1:k+1), 'k-');
+%         figure(5); stairs(t(1:k+1), Z(5, 1:k+1), 'k-');
 %     end
-    
+
+%     figure(1); hold on; grid on; plot(t(1:k+1), U(1, 1:k+1), 'b-');
+%     figure(2); hold on; grid on; plot(t(1:k+1), Z(1, 1:k+1), 'b-');
 end
 
 % Package output
