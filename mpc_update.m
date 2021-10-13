@@ -393,20 +393,14 @@ ybar_predicted  = psi*xbar_k + gamma*ubar_km1 + ...
 % figure(1);
 % clf;
 % 
-% subplot(2,2,1);
+% subplot(2,1,1);
 % hold on; grid on;
-% title('State 1 prediction');
+% title('Input 1');
 % plot(U_k(1:m:end));
 % 
-% subplot(2,2,2);
-% hold on; grid on;
-% title('State 2 prediction');
-% plot(U_k(2:m:end));
-% 
-% subplot(2,2,3);
+% subplot(2,1,2);
 % hold on; grid on;
 % title('Output prediction');
 % plot(ybar_predicted(1:p:end));
 
 output = U_k;
-
