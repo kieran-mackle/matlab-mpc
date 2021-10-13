@@ -257,17 +257,16 @@ if strcmpi(mpc_input.solver, 'quadprog') && ...
 end
 
 % Prediction matrices
-gamma = build_LTM(m,Hp);
-psi = ABdu_big;
-phi = X_inf - A_big*xbar_k - AB_big*ubar_km1;
-theta = repmat(u_inf - ubar_km1, Hp, 1);
+LTM = build_LTM(m,Hp);
+x_diff = X_inf - A_big*x0' - AB_big*u0;
+u_diff = repmat(u_inf - u0, Hp, 1);
 
 
 % Formulate Quadratic Program
 % ----------------------------------
 % Prediction matrices
-G           = 2 * (psi' * Q_fancy * phi + gamma' * R_fancy * theta);
-H           = psi' * Q_fancy * psi + gamma' * R_fancy * gamma;
+G           = 2 * (ABdu_big' * Q_fancy * x_diff + LTM' * R_fancy * u_diff);
+H           = ABdu_big' * Q_fancy * ABdu_big + LTM' * R_fancy * LTM;
 
 % Constraint matrices - for hard constraints
 % todo - fix the name abuse below
@@ -407,23 +406,18 @@ U_k     = Ubar + repmat(u0', Hp, 1);
 ybar_predicted  = psi*xbar_k + gamma*ubar_km1 + ...
                   theta*dUbar + phi*f0d + repmat(g0, Hp, 1);
               
-% figure(1);
-% clf;
-% 
-% subplot(2,2,1);
-% hold on; grid on;
-% title('State 1 prediction');
-% plot(U_k(1:m:end));
-% 
-% subplot(2,2,2);
-% hold on; grid on;
-% title('State 2 prediction');
-% plot(U_k(2:m:end));
-% 
-% subplot(2,2,3);
-% hold on; grid on;
-% title('Output prediction');
-% plot(ybar_predicted(1:p:end));
+figure(1);
+clf;
+
+subplot(2,1,1);
+hold on; grid on;
+title('Input 1');
+stairs(U_k(1:m:end));
+
+subplot(2,1,2);
+hold on; grid on;
+title('Output prediction');
+plot(ybar_predicted(1:p:end));
 
 output = U_k;
 
