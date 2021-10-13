@@ -257,7 +257,7 @@ if strcmpi(mpc_input.solver, 'quadprog') && ...
 end
 
 % Prediction matrices
-gamma = tril(ones(m*Hp));
+gamma = build_LTM(m,Hp);
 psi = ABdu_big;
 phi = X_inf - A_big*xbar_k - AB_big*ubar_km1;
 theta = repmat(u_inf - ubar_km1, Hp, 1);
