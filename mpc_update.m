@@ -390,17 +390,17 @@ U_k     = Ubar + repmat(u0', Hp, 1);
 ybar_predicted  = psi*xbar_k + gamma*ubar_km1 + ...
                   theta*dUbar + phi*f0d + repmat(g0, Hp, 1);
               
-% figure(1);
-% clf;
-% 
-% subplot(2,1,1);
-% hold on; grid on;
-% title('Input 1');
-% plot(U_k(1:m:end));
-% 
-% subplot(2,1,2);
-% hold on; grid on;
-% title('Output prediction');
-% plot(ybar_predicted(1:p:end));
+figure(1);
+clf;
+
+subplot(2,1,1);
+hold on; grid on;
+title('Input Force');
+stairs(U_k(1:m:end));
+
+subplot(2,1,2);
+hold on; grid on;
+title('Output prediction');
+plot(ybar_predicted(1:p:end));
 
 output = U_k;
