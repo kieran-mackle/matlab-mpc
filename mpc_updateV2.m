@@ -81,7 +81,7 @@ g0          = control_output(x0)';
 
 % Define cost weighting matrices
 % -----------------------------------------
-Q           = C' * cost.output * C;
+Q           = C' * cost.output * C; % Convert output costs to  state costs
 R           = cost.control;
 
 % Define constraint matrices
@@ -182,11 +182,12 @@ end
 % ------------------------------------------------------------------- %
 % Calculate targets
 % ------------------------------------------------------------------- %
-LHS = [A,B; C, zeros(size(C,1), size(B,2))];
-RHS = [-f0d; r-g0];
+LHS = [A, B; C, zeros(size(C,1), size(B,2))];
+RHS = [zeros(size(f0)); r];
 xu_inf = lsqminnorm(LHS, RHS);  % Optimal steady-state
-x_inf = xu_inf(1:n);
-u_inf = xu_inf(n+1:end);
+% xu_inf = linsolve(LHS, RHS);  % Optimal steady-state
+x_inf = xu_inf(1:n); % [5;0]; %
+u_inf = xu_inf(n+1:end); % [0]; % 
 X_inf = repmat(x_inf, [Hp,1]);
 U_inf = repmat(u_inf, [Hp,1]);
 
@@ -269,7 +270,6 @@ G           = 2 * (ABdu_big' * Q_fancy * x_diff + LTM' * R_fancy * u_diff);
 H           = ABdu_big' * Q_fancy * ABdu_big + LTM' * R_fancy * LTM;
 
 % Constraint matrices - for hard constraints
-% todo - fix the name abuse below
 F_1         = F_fancy(:, 1:m);
 psi         = C_big*A_big;
 gamma       = C_big*AB_big;
@@ -404,20 +404,20 @@ U_k     = Ubar + repmat(u0', Hp, 1);
 
 % PLOTTING
 ybar_predicted  = psi*xbar_k + gamma*ubar_km1 + ...
-                  theta*dUbar + phi*f0d + repmat(g0, Hp, 1);
+                  theta*dUbar + phi*f0d; % + repmat(g0, Hp, 1);
               
 figure(1);
 clf;
 
 subplot(2,1,1);
 hold on; grid on;
-title('Input 1');
+title('Input Force');
 stairs(U_k(1:m:end));
 
 subplot(2,1,2);
 hold on; grid on;
 title('Output prediction');
-plot(ybar_predicted(1:p:end));
+plot(ybar_predicted(1:p:end)+g0);
 
 output = U_k;
 
