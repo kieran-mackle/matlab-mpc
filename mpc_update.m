@@ -390,17 +390,27 @@ U_k     = Ubar + repmat(u0', Hp, 1);
 ybar_predicted  = psi*xbar_k + gamma*ubar_km1 + ...
                   theta*dUbar + phi*f0d + repmat(g0, Hp, 1);
               
-figure(1);
+figure(4);
 clf;
 
-subplot(2,1,1);
+subplot(2,2,1);
 hold on; grid on;
-title('Input Force');
-stairs(U_k(1:m:end));
+title('Flap Input');
+stairs(ybar_predicted(2:p:end)*180/pi);
 
-subplot(2,1,2);
+subplot(2,2,2);
 hold on; grid on;
-title('Output prediction');
+title('Thrust setting');
+stairs(ybar_predicted(3:p:end));
+
+subplot(2,2,3);
+hold on; grid on;
+title('Altitude');
 plot(ybar_predicted(1:p:end));
+
+subplot(2,2,4);
+hold on; grid on;
+title('FPA');
+stairs(ybar_predicted(5:p:end));
 
 output = U_k;

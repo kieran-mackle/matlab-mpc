@@ -103,8 +103,30 @@ for k = 1:N
 %         figure(5); stairs(t(1:k+1), Z(5, 1:k+1), 'k-');
 %     end
 
-%     figure(1); hold on; grid on; plot(t(1:k+1), U(1, 1:k+1), 'b-');
-%     figure(2); hold on; grid on; plot(t(1:k+1), Z(1, 1:k+1), 'b-');
+    figure(3); 
+    clf; grid on; 
+    sgtitle('Simulation results');
+    
+    subplot(2,2,1);
+    hold on; grid on;
+    title('Flap input'); 
+    plot(t(1:k+1), Z(2, 1:k+1)*180/pi, 'b-');
+    
+    subplot(2,2,2);
+    hold on; grid on;
+    title("Thrust setting");
+    plot(t(1:k+1), Z(3, 1:k+1));
+    
+    subplot(2,2,3);
+    hold on; grid on;
+    title('Altitude');
+    plot(t(1:k+1), Z(1, 1:k+1));
+    
+    subplot(2,2,4);
+    hold on; grid on;
+    title('FPA');
+    plot(t(1:k+1), Z(5, 1:k+1));
+    
 end
 
 % Package output
