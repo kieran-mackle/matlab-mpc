@@ -185,7 +185,7 @@ end
 LHS = [A, B; C, zeros(size(C,1), size(B,2))];
 RHS = [zeros(size(f0)); r];
 
-% TODO - RHS must be solver otherwise
+% TODO - RHS must be solved otherwise
 % RHS = []
 
 xu_inf = lsqminnorm(LHS, RHS);  % Optimal steady-state
