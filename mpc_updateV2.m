@@ -1,6 +1,7 @@
 function output = mpc_updateV2(mpc_input)
 % Calculates a single MPC update.
 % This is a modified objective function version
+% The optimal steady-state is solved first by linear algebra
 
 % ----------------------------------------------------------------------- %
 % Deconstruct input
