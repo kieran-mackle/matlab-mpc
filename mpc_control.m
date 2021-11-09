@@ -68,14 +68,14 @@ for k = 1:N
     mpc_input                   = get_reference(mpc_input); % Updates reference 
                                                             % and cost matrices
     
-    % Run MPC update
+    % Run MPC update with control model
     % ----------------------------------
-%     U_k                         = mpc_update(mpc_input);
-    U_k                         = mpc_updateV2(mpc_input);
+    U_k                         = mpc_update(mpc_input);
+%     U_k                         = mpc_updateV2(mpc_input);
     uk                          = U_k(1:length(u0), :);
     
-    % Run forward simultation
-    % ----------------------------------
+    % Run forward simultation with plant model
+    % -----------------------------------------
     dyn_input.phase.time        = t(k);
     dyn_input.phase.state       = initial.state;
     dyn_input.phase.control     = uk';
