@@ -67,12 +67,17 @@ for k = 1:N
     mpc_input.t                 = t(k);
     mpc_input                   = get_reference(mpc_input); % Updates reference 
                                                             % and cost matrices
-    
+                                                            
     % Run MPC update with control model
     % ----------------------------------
+        % Map plant model to control model
+        
     U_k                         = mpc_update(mpc_input);
 %     U_k                         = mpc_updateV2(mpc_input);
     uk                          = U_k(1:length(u0), :);
+    
+        % Map control model to plant model
+        
     
     % Run forward simultation with plant model
     % -----------------------------------------

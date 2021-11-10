@@ -392,6 +392,7 @@ ybar_predicted  = psi*xbar_k + gamma*ubar_km1 + ...
               
 figure(4);
 clf;
+sgtitle("Single MPC Update Results");
 
 subplot(2,2,1);
 hold on; grid on;
