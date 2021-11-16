@@ -315,10 +315,15 @@ if strcmpi(mpc_input.solver, 'gurobi')
     constraint_weights = [F_weights; G_weights; E_weights];
     Uopt_mat    = zeros(m*Hp,1);
 
-    % IMPORTANT - the line below will only work if solve_qp_mex has been
-    % compiled with the correct input argument sizes (see notes.txt)
-%     cd '/home/kieran/Documents/MATLAB/MPC'
-%     run_codegen
+    % Check for any NaNs or Infs
+    if any(isnan(H), 'all') || any(isinf(H), 'all') || ...
+       any(isnan(G), 'all') || any(isinf(G), 'all') || ...
+       any(isnan(Omega), 'all') || any(isinf(Omega), 'all') || ...
+       any(isnan(omega), 'all') || any(isinf(omega), 'all')
+       
+        error("Invalid value encountered (NaN or Inf).")
+    end
+    
     try
     [output, dUbar] = solve_qp_mex(nRows, nCols, nInputs, H, G, Omega, omega, ...
                                    constraint_weights, Uopt_mat);
