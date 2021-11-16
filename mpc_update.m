@@ -298,8 +298,17 @@ if strcmpi(mpc_input.solver, 'gurobi')
     % compiled with the correct input argument sizes (see notes.txt)
 %     cd '/home/kieran/Documents/MATLAB/MPC'
 %     run_codegen
+    try
     [output, dUbar] = solve_qp_mex(nRows, nCols, nInputs, H, G, Omega, omega, ...
                                    constraint_weights, Uopt_mat);
+    catch
+        wdir = pwd;
+        cd /home/kieran/Documents/MATLAB/MPC
+        run_codegen;
+        [output, dUbar] = solve_qp_mex(nRows, nCols, nInputs, H, G, Omega, omega, ...
+                                   constraint_weights, Uopt_mat);
+        cd(wdir);
+    end
 
     if output == 0
         return

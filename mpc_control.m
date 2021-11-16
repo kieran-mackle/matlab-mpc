@@ -72,8 +72,8 @@ for k = 1:N
     % ----------------------------------
         % Map plant model to control model
         
-    U_k                         = mpc_update(mpc_input);
-%     U_k                         = mpc_updateV2(mpc_input);
+%     U_k                         = mpc_update(mpc_input);
+    U_k                         = mpc_updateV2(mpc_input);
     uk                          = U_k(1:length(u0), :);
     
         % Map control model to plant model
@@ -110,7 +110,7 @@ for k = 1:N
 
     figure(3); 
     clf; grid on; 
-    sgtitle('Simulation results');
+    sgtitle('Live Simulation Results');
     
     subplot(2,2,1);
     hold on; grid on;
