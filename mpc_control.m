@@ -71,7 +71,8 @@ for k = 1:N
     % Run MPC update with control model
     % ----------------------------------
         % Map plant model to control model
-        
+    mpc_input = plant_to_control(mpc_input);
+    
     U_k                         = mpc_update(mpc_input);
 %     U_k                         = mpc_updateV2(mpc_input);
     uk                          = U_k(1:length(u0), :);
